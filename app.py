@@ -12,7 +12,6 @@ fake_trades = [
 ]
 
 
-
 class MyApp:
     def __init__(self):
         self.app = APIRouter()
@@ -30,6 +29,10 @@ class MyApp:
         @self.app.get("/users/{user_id}")
         async def users(user_id: int):
             return [user for user in fake_user if user.get("id") == user_id]
+
+        @self.app.get("/trades")
+        async def get_trades():
+            ...
 
 
 my_app = MyApp()
