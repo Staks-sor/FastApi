@@ -23,6 +23,14 @@ class Trade(BaseModel):
     price: float = Field(ge=0)
     amount: float
 
+class Degree(BaseModel):
+    id: int
+
+class User(BaseModel):
+    id: int
+    role: str
+    name: str
+    degree: List[Degree]
 
 class MyApp:
     def __init__(self):
@@ -38,7 +46,7 @@ class MyApp:
             return s
 
     def user_agent(self):
-        @self.app.get("/users/{user_id}")
+        @self.app.get("/users/{user_id}", response_model=List[User])
         async def users(user_id: int):
             return [user for user in fake_user if user.get("id") == user_id]
 
@@ -56,5 +64,6 @@ class MyApp:
         async def add_trades(trades: List[Trade]):
             fake_trades.extend(trades)
             return {"status": 200, "data": fake_trades}
+
 
 my_app = MyApp()
