@@ -1,7 +1,7 @@
 from typing import List
 
 from fastapi import APIRouter
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 fake_user = [
     {"id": 1, "role": "admin", "name": "Bob"},
@@ -20,7 +20,7 @@ class Trade(BaseModel):
     user_id: int
     currency: str
     side: str
-    price: float
+    price: float = Field(ge=0)
     amount: float
 
 
