@@ -12,6 +12,7 @@ fake_trades = [
 ]
 
 
+
 class MyApp:
     def __init__(self):
         self.app = APIRouter()
