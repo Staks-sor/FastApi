@@ -1,4 +1,7 @@
+from typing import List
+
 from fastapi import APIRouter
+from pydantic import BaseModel
 
 fake_user = [
     {"id": 1, "role": "admin", "name": "Bob"},
@@ -10,6 +13,15 @@ fake_trades = [
     {"id": 1, "user_id": 1, "currency": "BTC", "side": "buy", "price": 123, "amount": 2.12},
     {"id": 2, "user_id": 1, "currency": "BTC", "side": "sell", "price": 125, "amount": 2.12}
 ]
+
+
+class Trade(BaseModel):
+    id: int
+    user_id: int
+    currency: str
+    side: str
+    price: float
+    amount: float
 
 
 class MyApp:
@@ -40,5 +52,9 @@ class MyApp:
         async def get_trades(limit: int = 1, offset: int = 0):
             return fake_trades[offset:][:limit]
 
+        @self.app.post("/trades")
+        async def add_trades(trades: List[Trade]):
+            fake_trades.extend(trades)
+            return {"status": 200, "data": fake_trades}
 
 my_app = MyApp()
