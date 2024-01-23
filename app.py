@@ -30,9 +30,15 @@ class MyApp:
         async def users(user_id: int):
             return [user for user in fake_user if user.get("id") == user_id]
 
+        @self.app.post("/users/{user_id}")
+        async def change_user_name(user_id: int, new_name: str):
+            current_user = list(filter(lambda user: user.get("id") == user_id, fake_user))[0]
+            current_user["name"] = new_name
+            return {"status": 200, "data": current_user}
+
         @self.app.get("/trades")
-        async def get_trades():
-            ...
+        async def get_trades(limit: int = 1, offset: int = 0):
+            return fake_trades[offset:][:limit]
 
 
 my_app = MyApp()
