@@ -32,3 +32,4 @@ watchfiles==0.21.0
 websockets==12.0
 
 SQLAlchemy~=2.0.25
+alembic~=1.13.1
