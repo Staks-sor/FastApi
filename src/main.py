@@ -1,19 +1,18 @@
 import uvicorn
-from fastapi import FastAPI, Depends
-from fastapi_users import fastapi_users, FastAPIUsers
-from pydantic import ValidationError
+from fastapi import Depends
+from fastapi_users import FastAPIUsers
 
 from app import my_app
 from another_class import another_class
-from fastapi import FastAPI, Request, status
+from fastapi import FastAPI, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import ValidationException
 from fastapi.responses import JSONResponse
 
-from auth.auth import auth_backend
-from auth.database import User
-from auth.manager import get_user_manager
-from auth.schemas import UserRead, UserCreate
+from src.auth.auth import auth_backend
+from src.database import User
+from src.auth.manager import get_user_manager
+from src.auth.schemas import UserRead, UserCreate
 
 if __name__ == "__main__":
     app = FastAPI(
