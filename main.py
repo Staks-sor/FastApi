@@ -1,5 +1,5 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi_users import fastapi_users, FastAPIUsers
 from pydantic import ValidationError
 
@@ -36,6 +36,21 @@ if __name__ == "__main__":
         prefix="/auth",
         tags=["auth"],
     )
+
+    current_user = fastapi_users.current_user()
+
+
+    @app.get("/protected-route")
+    def protected_route(user: User = Depends(current_user)):
+        return f"Hello, {user.username}"
+
+
+    current_user = fastapi_users.current_user()
+
+
+    @app.get("/unprotected-route")
+    def unprotected_route():
+        return f"Hello, anonime"
 
 
     @app.exception_handler(ValidationException)
