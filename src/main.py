@@ -1,66 +1,28 @@
 import uvicorn
-from fastapi import Depends
-from fastapi_users import FastAPIUsers
+from fastapi import FastAPI
 
-from app import my_app
-from another_class import another_class
-from fastapi import FastAPI, status
-from fastapi.encoders import jsonable_encoder
-from fastapi.exceptions import ValidationException
-from fastapi.responses import JSONResponse
+from auth.base_config import auth_backend, fastapi_users
+from auth.schemas import UserRead, UserCreate
 
-from src.auth.auth import auth_backend
-from src.database import User
-from src.auth.manager import get_user_manager
-from src.auth.schemas import UserRead, UserCreate
+from operations.router import router as router_operation
+
 
 if __name__ == "__main__":
     app = FastAPI(
-        title="Мое приложение"
-    )
-
-    fastapi_users = FastAPIUsers[User, int](
-        get_user_manager,
-        [auth_backend],
+        title="Trading App"
     )
 
     app.include_router(
         fastapi_users.get_auth_router(auth_backend),
-        prefix="/auth/jwt",
-        tags=["auth"],
+        prefix="/auth",
+        tags=["Auth"],
     )
 
     app.include_router(
         fastapi_users.get_register_router(UserRead, UserCreate),
         prefix="/auth",
-        tags=["auth"],
+        tags=["Auth"],
     )
 
-    current_user = fastapi_users.current_user()
-
-
-    @app.get("/protected-route")
-    def protected_route(user: User = Depends(current_user)):
-        return f"Hello, {user.username}"
-
-
-    current_user = fastapi_users.current_user()
-
-
-    @app.get("/unprotected-route")
-    def unprotected_route():
-        return f"Hello, anonime"
-
-
-    @app.exception_handler(ValidationException)
-    async def validation_exception_handler(exc: ValidationException):
-        return JSONResponse(
-            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-            content=jsonable_encoder({"detail": exc.errors()})
-        )
-
-
-    app.include_router(my_app.app)
-    app.include_router(another_class.app)
-
+    app.include_router(router_operation)
     uvicorn.run(app)
