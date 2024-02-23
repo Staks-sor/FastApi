@@ -5,3 +5,4 @@ fastapi-users[sqlalchemy]
 python-dotenv~=1.0.0
 sqlalchemy~=2.0.25
 pydantic~=2.5.3
+uvicorn~=0.26.0
