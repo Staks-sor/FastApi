@@ -1,17 +1,12 @@
 import uvicorn
 from fastapi import FastAPI
-from starlette.requests import Request
-from starlette.responses import Response, HTMLResponse
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-from fastapi_cache.decorator import cache
-from starlette.templating import Jinja2Templates
+from redis import asyncio as aioredis
 
 from auth.base_config import auth_backend, fastapi_users
 from auth.schemas import UserRead, UserCreate
-
 from operations.router import router as router_operation
-from redis import asyncio as aioredis
 
 if __name__ == "__main__":
     app = FastAPI(
