@@ -3,7 +3,7 @@ from email.message import EmailMessage
 
 from celery import Celery
 
-from src.config import SMTP_PASSWORD, SMTP_USER
+from config import SMTP_PASSWORD, SMTP_USER
 
 SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465
@@ -29,7 +29,7 @@ def get_email_template_dashboard(username: str):
     return email
 
 
-# @celery.task
+@celery.task
 def send_email_report_dashboard(username: str):
     email = get_email_template_dashboard(username)
     with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT) as server:

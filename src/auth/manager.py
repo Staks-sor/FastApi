@@ -1,11 +1,11 @@
 from typing import Optional
 
 from fastapi import Depends, Request
-from fastapi_users import BaseUserManager, IntegerIDMixin, exceptions, models, schemas
+from fastapi_users import (BaseUserManager, IntegerIDMixin, exceptions, models,
+                           schemas)
 
 from auth.models import User
 from auth.utils import get_user_db
-
 from config import SECRET_AUTH
 
 

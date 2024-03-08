@@ -10,5 +10,3 @@ class OperationCreate(BaseModel):
     instrument_type: str
     date: datetime
     type: str
-
-

@@ -13,7 +13,7 @@ class UserRead(schemas.BaseUser[int]):
     is_verified: bool = False
 
     class Config:
-        from_attributes = True
+        orm_mode = True
 
 
 class UserCreate(schemas.BaseUserCreate):
